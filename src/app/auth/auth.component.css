@@ -1,0 +1,20 @@
+mat-card {
+  margin: 20px auto;
+  width: 200px;
+  padding: 50px;
+  text-align: center;
+}
+form {
+  margin-top: 40px;
+}
+input {
+  display: block;
+  margin: auto;
+}
+.errorMessage {
+  height: 20px;
+  color: red;
+}
+button {
+  margin-top: 10px;
+}

@@ -1,1 +1,39 @@
-<p>auth works!</p>
+<mat-card>
+  <mat-card-title>Zaloguj się</mat-card-title>
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+    <label>Login<input formControlName="email" type="text" /></label>
+    <div class="errorMessage">
+      <ng-container
+        *ngIf="
+          loginForm.controls['email'].touched &&
+          loginForm.controls['email'].invalid
+        "
+      >
+        <p>Email nie może być pusty</p>
+      </ng-container>
+    </div>
+
+    <label>Hasło<input formControlName="password" type="password" /></label>
+    <div class="errorMessage">
+      <ng-container
+        *ngIf="
+          loginForm.controls['password'].touched &&
+          loginForm.controls['password'].invalid
+        "
+      >
+        <p>Hasło nie może być puste</p>
+      </ng-container>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="loginForm.invalid"
+    >
+      Zaloguj
+    </button>
+  </form>
+  <div>
+    {{ loginError }}
+  </div>
+</mat-card>
