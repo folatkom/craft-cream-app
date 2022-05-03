@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,8 +10,10 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 })
 export class AuthComponent implements OnInit {
   public loginForm!: FormGroup;
-  public loginError = '';
-  constructor(private formBuilder: FormBuilder, private auth: Auth) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: this.formBuilder.control('', [Validators.required]),
@@ -19,12 +21,6 @@ export class AuthComponent implements OnInit {
     });
   }
   login(value: any) {
-    signInWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((response: any) => {
-        console.log(response.user);
-      })
-      .catch(() => {
-        alert('Niewłaściwy email lub hasło');
-      });
+    this.authService.login(value);
   }
 }

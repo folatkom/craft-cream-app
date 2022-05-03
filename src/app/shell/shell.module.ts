@@ -13,7 +13,14 @@ import { SharedModule } from '../shared/shared.module';
       {
         path: '',
         component: ShellComponent,
-        children: [],
+        children: [
+          {
+            path: 'customer-dashboard',
+            loadChildren: async () =>
+              (await import('../customer-dashboard/customer-dashboard.module'))
+                .CustomerDashboardModule,
+          },
+        ],
       },
     ]),
   ],
