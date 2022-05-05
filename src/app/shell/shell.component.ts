@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-shell',
@@ -6,8 +7,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./shell.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShellComponent implements OnInit {
-  constructor() {}
+export class ShellComponent {
+  constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {}
+  logout() {
+    this.auth.logout();
+  }
 }

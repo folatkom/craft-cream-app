@@ -20,6 +20,12 @@ import { SharedModule } from '../shared/shared.module';
               (await import('../customer-dashboard/customer-dashboard.module'))
                 .CustomerDashboardModule,
           },
+          {
+            path: 'admin-dashboard',
+            loadChildren: async () =>
+              (await import('../admin-dashboard/admin-dashboard.module'))
+                .AdminDashboardModule,
+          },
         ],
       },
     ]),

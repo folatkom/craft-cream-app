@@ -6,16 +6,27 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  isLoggedIn = false;
+  isLoggedInCustomer = false;
+  isLoggedInAdmin = false;
   constructor(private auth: Auth, private router: Router) {}
   login(value: any) {
     signInWithEmailAndPassword(this.auth, value.email, value.password)
       .then(() => {
-        this.isLoggedIn = true;
-        this.router.navigate(['app/customer-dashboard']);
+        if (value.email === 'lodziarz@craftcream.com') {
+          this.isLoggedInAdmin = true;
+          this.isLoggedInCustomer = false;
+          this.router.navigate(['app/admin-dashboard']);
+        } else {
+          this.isLoggedInCustomer = true;
+          this.isLoggedInAdmin = false;
+          this.router.navigate(['app/customer-dashboard']);
+        }
       })
       .catch(() => {
         alert('Niewłaściwy email lub hasło');
       });
+  }
+  logout() {
+    this.router.navigate(['auth']);
   }
 }

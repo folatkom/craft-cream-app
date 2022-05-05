@@ -1,11 +1,14 @@
+:host {
+  padding: 20px;
+}
 mat-card {
-  margin: 20px auto;
-  width: 200px;
-  padding: 50px;
+  margin: 40px auto;
+  width: 300px;
+  padding: 0;
   text-align: center;
 }
-form {
-  margin-top: 40px;
+mat-card-title {
+  padding: 20px;
 }
 input {
   display: block;
@@ -16,5 +19,5 @@ input {
   color: red;
 }
 button {
-  margin-top: 10px;
+  margin: 20px;
 }
