@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CustomerComponent } from './customer.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-import { AdminDashboardComponent } from './admin-dashboard.component';
 
 @NgModule({
-  declarations: [AdminDashboardComponent],
+  declarations: [CustomerComponent],
   imports: [
     SharedModule,
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: AdminDashboardComponent,
+        component: CustomerComponent,
       },
     ]),
   ],
 })
-export class AdminDashboardModule {}
+export class CustomerModule {}

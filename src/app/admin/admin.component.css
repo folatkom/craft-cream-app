@@ -1,0 +1,16 @@
+mat-toolbar {
+  height: 6vh;
+  background-color: #929292;
+  padding: 0;
+}
+a {
+  width: 33%;
+  height: 100%;
+
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+.active {
+  background-color: #7b1fa2;
+}

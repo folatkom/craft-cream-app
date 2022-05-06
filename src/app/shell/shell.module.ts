@@ -15,16 +15,14 @@ import { SharedModule } from '../shared/shared.module';
         component: ShellComponent,
         children: [
           {
-            path: 'customer-dashboard',
+            path: 'customer',
             loadChildren: async () =>
-              (await import('../customer-dashboard/customer-dashboard.module'))
-                .CustomerDashboardModule,
+              (await import('../customer/customer.module')).CustomerModule,
           },
           {
-            path: 'admin-dashboard',
+            path: 'admin',
             loadChildren: async () =>
-              (await import('../admin-dashboard/admin-dashboard.module'))
-                .AdminDashboardModule,
+              (await import('../admin/admin.module')).AdminDashboardModule,
           },
         ],
       },

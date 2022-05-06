@@ -15,11 +15,11 @@ export class AuthService {
         if (value.email === 'lodziarz@craftcream.com') {
           this.isLoggedInAdmin = true;
           this.isLoggedInCustomer = false;
-          this.router.navigate(['app/admin-dashboard']);
+          this.router.navigate(['app/admin/dashboard']);
         } else {
           this.isLoggedInCustomer = true;
           this.isLoggedInAdmin = false;
-          this.router.navigate(['app/customer-dashboard']);
+          this.router.navigate(['app/customer']);
         }
       })
       .catch(() => {
