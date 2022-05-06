@@ -14,7 +14,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
         path: 'app',
         loadChildren: async () =>
           (await import('./shell/shell.module')).ShellModule,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
       },
       {
         path: '',

@@ -2,7 +2,7 @@
   <mat-toolbar> craft-cream</mat-toolbar>
   <mat-card-title>Zaloguj się</mat-card-title>
   <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
-    <label>E-mail<input formControlName="email" type="text" /></label>
+    <label>E-mail<input formControlName="email" type="email" /></label>
     <div class="errorMessage">
       <ng-container
         *ngIf="

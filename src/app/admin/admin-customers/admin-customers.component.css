@@ -1,0 +1,16 @@
+mat-card {
+  width: 40vw;
+  text-align: center;
+}
+mat-card-title {
+  padding: 10px;
+}
+input {
+  display: block;
+  margin: auto;
+}
+
+.errorMessage {
+  height: 20px;
+  color: red;
+}

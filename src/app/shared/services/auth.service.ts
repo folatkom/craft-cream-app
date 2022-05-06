@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -28,5 +32,14 @@ export class AuthService {
   }
   logout() {
     this.router.navigate(['auth']);
+  }
+  addCustomer(value: any) {
+    createUserWithEmailAndPassword(this.auth, value.email, value.password)
+      .then((result) => {
+        //this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
   }
 }
