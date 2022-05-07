@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   isLoggedInCustomer = false;
   isLoggedInAdmin = false;
+  loggedCustomer = '';
   constructor(private auth: Auth, private router: Router) {}
   login(value: any) {
     signInWithEmailAndPassword(this.auth, value.email, value.password)
@@ -23,6 +24,7 @@ export class AuthService {
         } else {
           this.isLoggedInCustomer = true;
           this.isLoggedInAdmin = false;
+          this.loggedCustomer = value.email;
           this.router.navigate(['app/customer']);
         }
       })
