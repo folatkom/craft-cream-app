@@ -6,12 +6,14 @@ import { AdminComponent } from './admin.component';
 import { AdminCustomersComponent } from './admin-customers/admin-customers.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminOfferComponent } from './admin-offer/admin-offer.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminDashboardComponent,
     AdminCustomersComponent,
+    AdminOfferComponent,
   ],
   imports: [
     SharedModule,
@@ -29,6 +31,10 @@ import { ReactiveFormsModule } from '@angular/forms';
           {
             path: 'customers',
             component: AdminCustomersComponent,
+          },
+          {
+            path: 'offer',
+            component: AdminOfferComponent,
           },
         ],
       },

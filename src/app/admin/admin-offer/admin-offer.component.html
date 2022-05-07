@@ -1,0 +1,50 @@
+<mat-grid-list cols="2" rowHeight="230px">
+  <mat-grid-tile>
+    <a (click)="showModal('flavours')">
+      <mat-card><mat-card-title>Dostępne smaki</mat-card-title></mat-card></a
+    >
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <a (click)="showModal('addFlavour')">
+      <mat-card><mat-card-title>Dodaj smak</mat-card-title></mat-card></a
+    >
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <a (click)="showModal('containers')">
+      <mat-card><mat-card-title>Dostępne pojemności</mat-card-title> </mat-card>
+    </a>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <a (click)="showModal('addContainer')">
+      <mat-card><mat-card-title>Dodaj pojemność</mat-card-title></mat-card>
+    </a>
+  </mat-grid-tile>
+</mat-grid-list>
+<div id="modal-container" *ngIf="isModalVisible">
+  <mat-card id="modal">
+    <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
+
+    <div *ngIf="!isFormVisible; else form">
+      <ul>
+        <li *ngFor="let item of list">{{ item.name }}</li>
+      </ul>
+    </div>
+
+    <ng-template #form>
+      <form
+        [formGroup]="addItemForm"
+        (ngSubmit)="submitForm(addItemForm.value)"
+      >
+        <label>nazwa: <input formControlName="name" type="text" /></label>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="addItemForm.invalid"
+        >
+          Dodaj
+        </button>
+      </form>
+    </ng-template>
+  </mat-card>
+</div>

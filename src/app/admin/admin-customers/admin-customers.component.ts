@@ -17,6 +17,7 @@ import {
 export class AdminCustomersComponent implements OnInit {
   public registerForm!: FormGroup;
   public customers: any = [];
+  public isModalVisible = false;
   public isCustomersListVisible = false;
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +43,7 @@ export class AdminCustomersComponent implements OnInit {
         alert(err.message);
       });
     this.registerForm.reset();
-    this.isCustomersListVisible = false;
+
     this.getCustomers();
   }
   getCustomers() {
@@ -55,7 +56,14 @@ export class AdminCustomersComponent implements OnInit {
       ];
     });
   }
-  showCustomersList() {
-    this.isCustomersListVisible = !this.isCustomersListVisible;
+  showModal(content: string) {
+    this.isCustomersListVisible = false;
+    if (content === 'list') {
+      this.isCustomersListVisible = true;
+    }
+    this.toggleModal();
+  }
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible;
   }
 }

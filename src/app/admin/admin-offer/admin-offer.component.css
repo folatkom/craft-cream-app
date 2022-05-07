@@ -1,11 +1,7 @@
 mat-card {
-  min-width: 30vw;
-  max-width: 200px;
+  width: 30vw;
   text-align: center;
-  margin: 10px auto;
-}
-mat-card-title {
-  padding: 10px;
+  padding: 6vw;
 }
 #modal-container {
   position: absolute;
@@ -17,15 +13,11 @@ mat-card-title {
 #modal {
   margin: 10% auto;
 }
-input {
-  display: block;
-  margin: auto;
-}
-.errorMessage {
-  height: 20px;
-  color: red;
-}
 ul {
   list-style-type: none;
   padding-left: 0;
+}
+input {
+  display: block;
+  margin: 5% auto;
 }
