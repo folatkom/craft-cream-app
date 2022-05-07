@@ -23,6 +23,14 @@
     <ul>
       <li *ngFor="let flavour of flavours">
         {{ flavour.name }}
+        <mat-icon *ngIf="isFavourite(flavour.name); else notFavouriteYet"
+          >favorite</mat-icon
+        >
+        <ng-template #notFavouriteYet
+          ><mat-icon (click)="addToFavourites(flavour)"
+            >favorite_border</mat-icon
+          ></ng-template
+        >
       </li>
     </ul>
     <mat-card-title>Dostępne pojemności</mat-card-title>

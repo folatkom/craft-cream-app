@@ -20,13 +20,19 @@ export class CustomerComponent implements OnInit {
   public flavours: any = [];
   public containers: any = [];
   public isModalVisible = false;
+  public favourites: any = [];
+  public loggedCustomerID = '';
+
   constructor(private authService: AuthService, private firestore: Firestore) {}
 
   ngOnInit(): void {
     this.getFlavours();
     this.getContainers();
-    this.loggedCustomer = this.authService.loggedCustomer;
+    this.getFavourites();
+    this.loggedCustomer = this.authService.userData.email;
+    this.loggedCustomerID = this.authService.userData.uid;
   }
+
   getFlavours() {
     const dbInstance = collection(this.firestore, 'flavours');
     getDocs(dbInstance).then((response) => {
@@ -47,7 +53,38 @@ export class CustomerComponent implements OnInit {
       ];
     });
   }
+  getFavourites() {
+    const dbInstance = collection(
+      this.firestore,
+      `users/${this.authService.userData.uid}/favourites`
+    );
+    getDocs(dbInstance).then((response) => {
+      this.favourites = [
+        ...response.docs.map((item) => {
+          return { ...item.data(), id: item.id };
+        }),
+      ];
+    });
+  }
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
+  }
+  addToFavourites(flavour: any) {
+    const dbInstance = collection(
+      this.firestore,
+      `users/${this.authService.userData.uid}/favourites`
+    );
+    addDoc(dbInstance, flavour)
+      .then(() => {
+        alert('Dodano do ulubionych');
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+    this.getFavourites();
+    this.toggleModal();
+  }
+  isFavourite(flavour: string): boolean {
+    return this.favourites.some((item: any) => item.name === flavour);
   }
 }

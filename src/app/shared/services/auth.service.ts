@@ -5,7 +5,11 @@ import {
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,10 +17,29 @@ export class AuthService {
   isLoggedInCustomer = false;
   isLoggedInAdmin = false;
   loggedCustomer = '';
-  constructor(private auth: Auth, private router: Router) {}
+  loggedCustomerID = '';
+  userData: any;
+  constructor(
+    private auth: Auth,
+    private router: Router,
+    private afs: AngularFirestore,
+    public afAuth: AngularFireAuth
+  ) {
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
+
   login(value: any) {
     signInWithEmailAndPassword(this.auth, value.email, value.password)
-      .then(() => {
+      .then((result) => {
         if (value.email === 'lodziarz@craftcream.com') {
           this.isLoggedInAdmin = true;
           this.isLoggedInCustomer = false;
@@ -24,9 +47,9 @@ export class AuthService {
         } else {
           this.isLoggedInCustomer = true;
           this.isLoggedInAdmin = false;
-          this.loggedCustomer = value.email;
           this.router.navigate(['app/customer']);
         }
+        this.SetUserData(result.user);
       })
       .catch(() => {
         alert('Niewłaściwy email lub hasło');
@@ -37,11 +60,22 @@ export class AuthService {
   }
   addCustomer(value: any) {
     createUserWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((result) => {
-        //this.SetUserData(result.user);
-      })
+      .then((result) => {})
       .catch((error) => {
         window.alert(error.message);
       });
+  }
+  SetUserData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+    };
+    console.log(userData);
+    return userRef.set(userData, {
+      merge: true,
+    });
   }
 }
