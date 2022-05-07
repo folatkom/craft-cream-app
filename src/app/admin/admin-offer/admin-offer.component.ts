@@ -5,6 +5,8 @@ import {
   Firestore,
   collection,
   getDocs,
+  deleteDoc,
+  doc,
 } from '@angular/fire/firestore';
 
 @Component({
@@ -21,6 +23,7 @@ export class AdminOfferComponent implements OnInit {
   public isModalVisible = false;
   public isFormVisible = false;
   public whichForm = '';
+  public whichList = '';
   constructor(private formBuilder: FormBuilder, private firestore: Firestore) {}
 
   ngOnInit(): void {
@@ -61,8 +64,22 @@ export class AdminOfferComponent implements OnInit {
       });
     this.addItemForm.reset();
   }
+  deleteItem(id: string) {
+    const itemToDelete = doc(this.firestore, this.whichList, id);
+    deleteDoc(itemToDelete)
+      .then(() => {
+        alert('Usunięto pomyślnie');
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+    this.getContainers();
+    this.getFlavours();
+    this.toggleModal();
+  }
   showModal(whichList: string) {
     this.isFormVisible = false;
+    this.whichList = whichList;
     if (whichList === 'flavours') {
       this.list = this.flavours;
     } else if (whichList === 'containers') {

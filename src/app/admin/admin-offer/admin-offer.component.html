@@ -26,7 +26,10 @@
 
     <div *ngIf="!isFormVisible; else form">
       <ul>
-        <li *ngFor="let item of list">{{ item.name }}</li>
+        <li *ngFor="let item of list">
+          {{ item.name }}
+          <mat-icon (click)="deleteItem(item.id)"> delete_outline</mat-icon>
+        </li>
       </ul>
     </div>
 
