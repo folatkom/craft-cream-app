@@ -1,48 +1,45 @@
-<mat-grid-list cols="2" rowHeight="300px">
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-title>Lista klientów</mat-card-title>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-title>Dodaj klienta</mat-card-title>
-      <form
-        [formGroup]="registerForm"
-        (ngSubmit)="addCustomer(registerForm.value)"
+<mat-card>
+  <mat-card-title>Nowy klient</mat-card-title>
+  <form [formGroup]="registerForm" (ngSubmit)="addCustomer(registerForm.value)">
+    <label>E-mail<input formControlName="email" type="email" /></label>
+    <div class="errorMessage">
+      <ng-container
+        *ngIf="
+          registerForm.controls['email'].touched &&
+          registerForm.controls['email'].invalid
+        "
       >
-        <label>E-mail<input formControlName="email" type="email" /></label>
-        <div class="errorMessage">
-          <ng-container
-            *ngIf="
-              registerForm.controls['email'].touched &&
-              registerForm.controls['email'].invalid
-            "
-          >
-            <p>Email nie może być pusty</p>
-          </ng-container>
-        </div>
+        <p>Email nie może być pusty</p>
+      </ng-container>
+    </div>
 
-        <label>Hasło<input formControlName="password" type="password" /></label>
-        <div class="errorMessage">
-          <ng-container
-            *ngIf="
-              registerForm.controls['password'].touched &&
-              registerForm.controls['password'].invalid
-            "
-          >
-            <p>Hasło nie może być puste</p>
-          </ng-container>
-        </div>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="registerForm.invalid"
-        >
-          Dodaj
-        </button>
-      </form>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+    <label>Hasło<input formControlName="password" type="password" /></label>
+    <div class="errorMessage">
+      <ng-container
+        *ngIf="
+          registerForm.controls['password'].touched &&
+          registerForm.controls['password'].invalid
+        "
+      >
+        <p>Hasło nie może być puste</p>
+      </ng-container>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="registerForm.invalid"
+    >
+      Dodaj
+    </button>
+  </form>
+</mat-card>
+<mat-card>
+  <mat-card-title>Lista klientów</mat-card-title>
+  <button mat-raised-button color="primary" (click)="showCustomersList()">
+    <mat-icon>expand_more</mat-icon>
+  </button>
+  <ul *ngIf="isCustomersListVisible">
+    <li *ngFor="let customer of customers">{{ customer.email }}</li>
+  </ul>
+</mat-card>

@@ -1,6 +1,7 @@
 mat-card {
-  width: 40vw;
+  width: 70vw;
   text-align: center;
+  margin: 10px auto;
 }
 mat-card-title {
   padding: 10px;
@@ -9,8 +10,11 @@ input {
   display: block;
   margin: auto;
 }
-
 .errorMessage {
   height: 20px;
   color: red;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0;
 }
