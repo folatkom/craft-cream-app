@@ -1,0 +1,10 @@
+<mat-card>
+  <h3>{{ flavourName }}</h3>
+  <div></div>
+  <app-customer-order-container
+    *ngFor="let container of containers"
+    [containerName]="container.name"
+    (containerQuantity)="getContainersChoice($event, container.name)"
+  >
+  </app-customer-order-container>
+</mat-card>

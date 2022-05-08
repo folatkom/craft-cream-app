@@ -22,7 +22,7 @@
 <div id="modal-container" *ngIf="isModalVisible">
   <mat-card id="modal">
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
-    <div *ngIf="whichModal === 'offer'; else order">
+    <div *ngIf="whichModal === 'offer'; else makeOrder">
       <mat-card-title>Dostępne smaki</mat-card-title>
       <ul>
         <li *ngFor="let flavour of flavours">
@@ -47,42 +47,44 @@
         </li>
       </ul>
     </div>
-    <ng-template #order>
+    <ng-template #makeOrder>
       <mat-card-title>Twoje zamówienie</mat-card-title>
-      <mat-card-subtitle>Ulubione smaki</mat-card-subtitle>
-      <mat-card class="elementList" *ngFor="let favourite of favourites">
-        <h3>{{ favourite.name }}</h3>
+      <ng-container *ngIf="!orderReady">
+        <mat-card-subtitle>Ulubione smaki</mat-card-subtitle>
+        <app-customer-order-flavour
+          *ngFor="let flavour of favourites"
+          [flavourName]="flavour.name"
+          [containers]="containers"
+          (flavour)="updateOrder($event)"
+        >
+        </app-customer-order-flavour>
+        <mat-card-subtitle>Pozostałe smaki</mat-card-subtitle>
+        <ng-container *ngFor="let flavour of flavours"
+          ><app-customer-order-flavour
+            *ngIf="!isFavourite(flavour.name)"
+            [flavourName]="flavour.name"
+            [containers]="containers"
+            (flavour)="updateOrder($event)"
+          >
+          </app-customer-order-flavour></ng-container
+        ><button mat-raised-button color="primary" (click)="createOrder()">
+          Zatwierdź
+        </button></ng-container
+      >
+
+      <ng-container *ngIf="orderReady">
+        <mat-card-subtitle>Podsumowanie zamówienia</mat-card-subtitle>
         <ul>
-          <li *ngFor="let container of containers">
-            <div class="container">{{ container.name }}</div>
-            <div>
-              <button mat-icon-button color="accent">
-                <mat-icon>add_circle_outline</mat-icon></button
-              ><button mat-icon-button color="accent">
-                <mat-icon>remove_circle_outline</mat-icon>
-              </button>
-            </div>
-            <div>ilość: 0</div>
+          <li *ngFor="let flavour of order">
+            {{ flavour.name }}:
+            <ul>
+              <li *ngFor="let container of flavour.containers">
+                {{ container.name }} - {{ container.quantity }} szt.
+              </li>
+            </ul>
           </li>
         </ul>
-      </mat-card>
-      <mat-card-subtitle>Wszystkie smaki</mat-card-subtitle>
-      <mat-card class="elementList" *ngFor="let flavour of flavours">
-        <h3>{{ flavour.name }}</h3>
-        <ul>
-          <li *ngFor="let container of containers">
-            <div class="container">{{ container.name }}</div>
-            <div>
-              <button mat-icon-button color="accent">
-                <mat-icon>add_circle_outline</mat-icon></button
-              ><button mat-icon-button color="accent">
-                <mat-icon>remove_circle_outline</mat-icon>
-              </button>
-            </div>
-            <div>ilość: 0</div>
-          </li>
-        </ul>
-      </mat-card>
+      </ng-container>
     </ng-template>
   </mat-card>
 </div>

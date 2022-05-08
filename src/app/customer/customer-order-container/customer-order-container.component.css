@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  line-height: 25px;
+  height: 25px;
+  width: 25px;
+  padding: 0;
+}
+.container {
+  width: 50%;
+}

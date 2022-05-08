@@ -25,18 +25,3 @@ li {
   display: flex;
   justify-content: space-between;
 }
-.elementList {
-  padding: 5px;
-  margin: 5px auto;
-  width: 90%;
-  background-color: rgb(117, 117, 117);
-}
-.elementList button {
-  line-height: 25px;
-  height: 25px;
-  width: 25px;
-  padding: 0;
-}
-.container {
-  width: 50%;
-}

@@ -8,7 +8,14 @@ import {
   deleteDoc,
   doc,
 } from '@angular/fire/firestore';
-
+export interface ChosenFlavour {
+  name: string;
+  containers: ChosenContainer[];
+}
+export interface ChosenContainer {
+  name: string;
+  quantity: number;
+}
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -22,6 +29,12 @@ export class CustomerComponent implements OnInit {
   public isModalVisible = false;
   public whichModal = '';
   public favourites: any = [];
+  public chosenFlavour: ChosenFlavour = {
+    name: '',
+    containers: [],
+  };
+  public order: ChosenFlavour[] = [];
+  public orderReady = false;
 
   constructor(private authService: AuthService, private firestore: Firestore) {}
 
@@ -108,5 +121,12 @@ export class CustomerComponent implements OnInit {
   showModal(whichModal: string) {
     this.whichModal = whichModal;
     this.toggleModal();
+  }
+  updateOrder(flavour: ChosenFlavour) {
+    this.order = this.order.filter((item) => item.name !== flavour.name);
+    this.order.push(flavour);
+  }
+  createOrder() {
+    this.orderReady = true;
   }
 }
