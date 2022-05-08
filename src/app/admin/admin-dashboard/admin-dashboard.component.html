@@ -2,13 +2,27 @@
   <mat-grid-tile>
     <mat-card>
       <mat-card-title>Podsumowanie zamówień</mat-card-title>
-      Na dziś brak zamówień
     </mat-card>
   </mat-grid-tile>
   <mat-grid-tile>
     <mat-card>
       <mat-card-title>Szczegóły zamówień</mat-card-title>
-      Na dziś brak zamówień
+      <ul>
+        <li *ngFor="let orderByUser of orders">
+          {{ orderByUser.user }}
+          <ul>
+            <li *ngFor="let orderElement of orderByUser.order">
+              {{ orderElement.name }}
+              <ul>
+                <li *ngFor="let container of orderElement.containers">
+                  {{ container.name }} - {{ container.quantity }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <button (click)="getThem()">pokaz</button>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>

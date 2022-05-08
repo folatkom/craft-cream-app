@@ -129,4 +129,25 @@ export class CustomerComponent implements OnInit {
   createOrder() {
     this.orderReady = true;
   }
+  sendOrder() {
+    const dbInstance = collection(
+      this.firestore,
+      `users/${this.authService.userData.uid}/currentOrder`
+    );
+    addDoc(dbInstance, { ...this.order })
+      .then(() => {
+        alert('Zamówienie zostało złożone');
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+    const dbInstance2 = collection(this.firestore, 'orders');
+    const orderByUser = { order: [...this.order], user: this.loggedCustomer };
+    addDoc(dbInstance2, orderByUser)
+      .then(() => {})
+      .catch((err) => {
+        alert(err.message);
+      });
+    this.toggleModal();
+  }
 }
