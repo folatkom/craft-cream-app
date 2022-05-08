@@ -23,8 +23,11 @@
     <ul>
       <li *ngFor="let flavour of flavours">
         {{ flavour.name }}
-        <mat-icon *ngIf="isFavourite(flavour.name); else notFavouriteYet"
-          >favorite</mat-icon
+        <mat-icon
+          *ngIf="isFavourite(flavour.name); else notFavouriteYet"
+          (click)="deleteFavourites(flavour.name)"
+        >
+          favorite</mat-icon
         >
         <ng-template #notFavouriteYet
           ><mat-icon (click)="addToFavourites(flavour)"

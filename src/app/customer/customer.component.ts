@@ -84,6 +84,26 @@ export class CustomerComponent implements OnInit {
     this.getFavourites();
     this.toggleModal();
   }
+  deleteFavourites(flavour: string) {
+    const favouriteToDelete = this.favourites.filter(
+      (item: any) => item.name === flavour
+    );
+    console.log(favouriteToDelete[0].id);
+    const itemToDelete = doc(
+      this.firestore,
+      `users/${this.authService.userData.uid}/favourites`,
+      favouriteToDelete[0].id
+    );
+    deleteDoc(itemToDelete)
+      .then(() => {
+        alert('Usunięto pomyślnie');
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+    this.getFavourites();
+    this.toggleModal();
+  }
   isFavourite(flavour: string): boolean {
     return this.favourites.some((item: any) => item.name === flavour);
   }
