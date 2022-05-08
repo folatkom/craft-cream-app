@@ -20,8 +20,8 @@ export class CustomerComponent implements OnInit {
   public flavours: any = [];
   public containers: any = [];
   public isModalVisible = false;
+  public whichModal = '';
   public favourites: any = [];
-  public loggedCustomerID = '';
 
   constructor(private authService: AuthService, private firestore: Firestore) {}
 
@@ -30,7 +30,6 @@ export class CustomerComponent implements OnInit {
     this.getContainers();
     this.getFavourites();
     this.loggedCustomer = this.authService.userData.email;
-    this.loggedCustomerID = this.authService.userData.uid;
   }
 
   getFlavours() {
@@ -88,7 +87,6 @@ export class CustomerComponent implements OnInit {
     const favouriteToDelete = this.favourites.filter(
       (item: any) => item.name === flavour
     );
-    console.log(favouriteToDelete[0].id);
     const itemToDelete = doc(
       this.firestore,
       `users/${this.authService.userData.uid}/favourites`,
@@ -106,5 +104,9 @@ export class CustomerComponent implements OnInit {
   }
   isFavourite(flavour: string): boolean {
     return this.favourites.some((item: any) => item.name === flavour);
+  }
+  showModal(whichModal: string) {
+    this.whichModal = whichModal;
+    this.toggleModal();
   }
 }

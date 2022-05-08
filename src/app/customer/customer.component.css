@@ -21,3 +21,12 @@ ul {
   list-style-type: none;
   padding-left: 0;
 }
+.elementList {
+  padding: 5px;
+  margin: 5px;
+  background-color: rgb(117, 117, 117);
+}
+.elementList button {
+  line-height: 20px;
+  padding: 0;
+}
