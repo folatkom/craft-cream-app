@@ -34,16 +34,7 @@ export class AdminCustomersComponent implements OnInit {
 
   addCustomer(value: any) {
     this.authService.addCustomer(value);
-    const dbInstance = collection(this.firestore, 'users');
-    addDoc(dbInstance, value)
-      .then(() => {
-        alert('Dodano nowego klienta');
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
     this.registerForm.reset();
-
     this.getCustomers();
   }
   getCustomers() {

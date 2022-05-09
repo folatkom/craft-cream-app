@@ -48,8 +48,8 @@ export class AuthService {
           this.isLoggedInCustomer = true;
           this.isLoggedInAdmin = false;
           this.router.navigate(['app/customer']);
+          this.SetUserData(result.user);
         }
-        this.SetUserData(result.user);
       })
       .catch(() => {
         alert('Niewłaściwy email lub hasło');
@@ -60,7 +60,9 @@ export class AuthService {
   }
   addCustomer(value: any) {
     createUserWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((result) => {})
+      .then((result) => {
+        this.SetUserData(result.user);
+      })
       .catch((error) => {
         window.alert(error.message);
       });
@@ -73,7 +75,6 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
     };
-    console.log(userData);
     return userRef.set(userData, {
       merge: true,
     });
