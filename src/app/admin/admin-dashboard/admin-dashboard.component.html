@@ -1,28 +1,53 @@
 <mat-grid-list cols="2" rowHeight="230px">
   <mat-grid-tile>
-    <mat-card>
-      <mat-card-title>Podsumowanie zamówień</mat-card-title>
-    </mat-card>
+    <a (click)="showModal('summary')"
+      ><mat-card>
+        <mat-card-title>Podsumowanie zamówień</mat-card-title>
+      </mat-card></a
+    >
   </mat-grid-tile>
   <mat-grid-tile>
-    <mat-card>
+    <a (click)="showModal('details')"
+      ><mat-card>
+        <mat-card-title>Szczegóły zamówień</mat-card-title>
+      </mat-card></a
+    >
+  </mat-grid-tile>
+</mat-grid-list>
+
+<div id="modal-container" *ngIf="isModalVisible">
+  <mat-card id="modal">
+    <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
+    <div *ngIf="isSummaryVisible; else details">
+      <mat-card-title>Podsumowanie zamówień</mat-card-title>
+      <ul>
+        <li *ngFor="let order of allOrdersSummary">
+          <mat-card-subtitle>{{ order.name }}</mat-card-subtitle>
+          <ul>
+            <li *ngFor="let container of order.containers">
+              {{ container.name }} - {{ container.quantity }} szt.
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <ng-template #details>
       <mat-card-title>Szczegóły zamówień</mat-card-title>
       <ul>
         <li *ngFor="let orderByUser of orders">
-          {{ orderByUser.user }}
+          <mat-card-subtitle>{{ orderByUser.user }}</mat-card-subtitle>
           <ul>
             <li *ngFor="let orderElement of orderByUser.order">
               {{ orderElement.name }}
               <ul>
                 <li *ngFor="let container of orderElement.containers">
-                  {{ container.name }} - {{ container.quantity }}
+                  {{ container.name }} - {{ container.quantity }} szt.
                 </li>
               </ul>
             </li>
           </ul>
         </li>
       </ul>
-      <button (click)="getThem()">pokaz</button>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+    </ng-template>
+  </mat-card>
+</div>
