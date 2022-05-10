@@ -15,12 +15,7 @@ import { Flavour, Container } from 'src/app/shared/model/flavour';
 })
 export class CustomerOrderFlavourComponent {
   @Input() flavourName = '';
-  @Input() containers: Container[] = [
-    {
-      name: '',
-      quantity: 0,
-    },
-  ];
+  @Input() containers: Container[] = [];
   @Output() flavour = new EventEmitter<Flavour>();
 
   public chosenFlavour: Flavour = {

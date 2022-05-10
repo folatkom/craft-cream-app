@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
-import { Flavour } from '../shared/model/flavour';
+import { Flavour, listItem } from '../shared/model/flavour';
 import { ApiService } from '../shared/services/api.service';
+import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-customer',
@@ -12,17 +13,11 @@ import { ApiService } from '../shared/services/api.service';
 export class CustomerComponent implements OnInit {
   public loggedCustomer = '';
   public uid = '';
-  public flavours: any = [];
-  public containers: any = [];
+  public flavours: Flavour[] = [];
+  public containers: Container[] = [];
   public isModalVisible = false;
   public whichModal = '';
-  public favourites: any = [];
-  public chosenFlavour: Flavour = {
-    name: '',
-    containers: [],
-  };
-  public order: Flavour[] = [];
-  public orderReady = false;
+  public favourites: listItem[] = [];
 
   constructor(
     private authService: AuthService,
@@ -58,6 +53,7 @@ export class CustomerComponent implements OnInit {
           };
         }))
     );
+    console.log(this.containers);
   }
   getFavourites() {
     this.apiService.getData(`users/${this.uid}/favourites`).subscribe(
@@ -73,48 +69,8 @@ export class CustomerComponent implements OnInit {
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
   }
-  addToFavourites(flavour: any) {
-    const flavourToAdd = {
-      name: flavour.name,
-    };
-    this.apiService.addData(flavourToAdd, `users/${this.uid}/favourites`);
-    this.getFavourites();
-    this.toggleModal();
-  }
-  deleteFavourites(flavour: string) {
-    const favouriteToDelete = this.favourites.filter(
-      (item: any) => item.name === flavour
-    );
-    this.apiService.deleteData(
-      favouriteToDelete[0].id,
-      `users/${this.uid}/favourites`
-    );
-    this.getFavourites();
-    this.toggleModal();
-  }
-  isFavourite(flavour: string): boolean {
-    return this.favourites.some((item: any) => item.name === flavour);
-  }
   showModal(whichModal: string) {
     this.whichModal = whichModal;
-    this.toggleModal();
-  }
-  updateOrder(flavour: Flavour) {
-    this.order = this.order.filter((item) => item.name !== flavour.name);
-    this.order.push(flavour);
-  }
-  createOrder() {
-    this.orderReady = true;
-  }
-  sendOrder() {
-    this.apiService.addData(
-      { ...this.order },
-      `users/${this.uid}/currentOrder`
-    );
-    this.apiService.addData(
-      { order: [...this.order], user: this.loggedCustomer },
-      'orders'
-    );
     this.toggleModal();
   }
 }

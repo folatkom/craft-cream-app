@@ -7,7 +7,6 @@
     <a>
       <mat-card (click)="showModal('order')">
         <mat-card-title>Twoje dzisiejsze zamówienie</mat-card-title>
-        Kliknij aby rozpocząć
       </mat-card>
     </a>
   </mat-grid-tile>
@@ -23,71 +22,22 @@
   <mat-card id="modal">
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
     <div *ngIf="whichModal === 'offer'; else makeOrder">
-      <mat-card-title>Dostępne smaki</mat-card-title>
-      <ul>
-        <li *ngFor="let flavour of flavours">
-          {{ flavour.name }}
-          <mat-icon
-            *ngIf="isFavourite(flavour.name); else notFavouriteYet"
-            (click)="deleteFavourites(flavour.name)"
-          >
-            favorite</mat-icon
-          >
-          <ng-template #notFavouriteYet>
-            <mat-icon (click)="addToFavourites(flavour)">
-              favorite_border
-            </mat-icon>
-          </ng-template>
-        </li>
-      </ul>
-      <mat-card-title>Dostępne pojemności</mat-card-title>
-      <ul>
-        <li *ngFor="let container of containers">
-          {{ container.name }}
-        </li>
-      </ul>
+      <app-customer-offer
+        [flavours]="flavours"
+        [containers]="flavours"
+        [favourites]="favourites"
+        [uid]="uid"
+        (clickButton)="toggleModal()"
+      ></app-customer-offer>
     </div>
     <ng-template #makeOrder>
-      <mat-card-title>Twoje zamówienie</mat-card-title>
-      <ng-container *ngIf="!orderReady">
-        <mat-card-subtitle>Ulubione smaki</mat-card-subtitle>
-        <app-customer-order-flavour
-          *ngFor="let flavour of favourites"
-          [flavourName]="flavour.name"
-          [containers]="containers"
-          (flavour)="updateOrder($event)"
-        >
-        </app-customer-order-flavour>
-        <mat-card-subtitle>Pozostałe smaki</mat-card-subtitle>
-        <ng-container *ngFor="let flavour of flavours"
-          ><app-customer-order-flavour
-            *ngIf="!isFavourite(flavour.name)"
-            [flavourName]="flavour.name"
-            [containers]="containers"
-            (flavour)="updateOrder($event)"
-          >
-          </app-customer-order-flavour></ng-container
-        ><button mat-raised-button color="primary" (click)="createOrder()">
-          Zatwierdź
-        </button></ng-container
-      >
-
-      <ng-container *ngIf="orderReady">
-        <mat-card-subtitle>Podsumowanie zamówienia</mat-card-subtitle>
-        <ul>
-          <li *ngFor="let flavour of order">
-            {{ flavour.name }}:
-            <ul>
-              <li *ngFor="let container of flavour.containers">
-                {{ container.name }} - {{ container.quantity }} szt.
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <button mat-raised-button color="primary" (click)="sendOrder()">
-          Zamów
-        </button>
-      </ng-container>
+      <app-customer-order
+        [flavours]="flavours"
+        [containers]="containers"
+        [favourites]="favourites"
+        [uid]="uid"
+        (clickButton)="toggleModal()"
+      ></app-customer-order>
     </ng-template>
   </mat-card>
 </div>
