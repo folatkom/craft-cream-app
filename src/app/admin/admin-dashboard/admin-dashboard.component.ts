@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Flavour } from 'src/app/shared/model/flavour';
 import { Order } from 'src/app/shared/model/order';
@@ -15,9 +16,10 @@ export class AdminDashboardComponent implements OnInit {
   public allOrdersSummary: Flavour[] = [];
   public isModalVisible = false;
   public isSummaryVisible = false;
+  public date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
   constructor(private apiService: ApiService) {}
 
-  async ngOnInit() {
+  ngOnInit(): void {
     this.getOrdersByCustomers();
   }
 
@@ -28,6 +30,11 @@ export class AdminDashboardComponent implements OnInit {
           id: e.payload.doc.id,
           ...e.payload.doc.data(),
         };
+      });
+      this.orders.map((el: any) => {
+        if (this.date !== el.date) {
+          this.apiService.deleteData(el.id, 'orders');
+        }
       });
       this.getAllOrders();
     });

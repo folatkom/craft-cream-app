@@ -2,6 +2,7 @@
   <span id="customer">{{ loggedCustomer }}</span> witaj w świecie craftowych
   lodów!
 </h1>
+<span>Dziś mamy {{ date }}. Osłodź sobie jutrzejszy dzień!</span>
 <mat-grid-list cols="2" rowHeight="230px">
   <mat-grid-tile>
     <a>
@@ -36,6 +37,8 @@
         [containers]="containers"
         [favourites]="favourites"
         [uid]="uid"
+        [loggedCustomer]="loggedCustomer"
+        [userOrder]="userOrder"
         (clickButton)="toggleModal()"
       ></app-customer-order>
     </ng-template>

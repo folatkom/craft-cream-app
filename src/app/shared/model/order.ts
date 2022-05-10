@@ -1,6 +1,7 @@
 import { Flavour } from './flavour';
 
 export interface Order {
-  user: string;
   order: Flavour[];
+  user: string;
+  date: string;
 }
