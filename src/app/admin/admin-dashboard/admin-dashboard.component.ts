@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ChosenFlavour } from 'src/app/customer/customer.component';
-import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { Flavour } from 'src/app/shared/model/flavour';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -11,23 +11,24 @@ import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 export class AdminDashboardComponent implements OnInit {
   public orders: any = [];
   public ordersByCustomer: any;
-  public allOrders: ChosenFlavour[] = [];
-  public allOrdersSummary: ChosenFlavour[] = [];
+  public allOrders: Flavour[] = [];
+  public allOrdersSummary: Flavour[] = [];
   public isModalVisible = false;
   public isSummaryVisible = false;
-  constructor(private firestore: Firestore) {}
+  constructor(private apiService: ApiService) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getOrdersByCustomers();
   }
+
   getOrdersByCustomers() {
-    const dbInstance = collection(this.firestore, 'orders');
-    getDocs(dbInstance).then((response) => {
-      this.orders = [
-        ...response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
-        }),
-      ];
+    this.apiService.getData('orders').subscribe((res) => {
+      this.orders = res.map((e: any) => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        };
+      });
       this.getAllOrders();
     });
   }
@@ -38,7 +39,7 @@ export class AdminDashboardComponent implements OnInit {
     this.allOrders.forEach((flavourToCheck) => {
       if (
         !this.allOrdersSummary.some(
-          (item: any) => item.name === flavourToCheck.name
+          (item: Flavour) => item.name === flavourToCheck.name
         )
       ) {
         this.allOrdersSummary.push(flavourToCheck);

@@ -5,7 +5,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { ChosenFlavour, ChosenContainer } from '../customer.component';
+import { Flavour, Container } from 'src/app/shared/model/flavour';
 
 @Component({
   selector: 'app-customer-order-flavour',
@@ -15,15 +15,15 @@ import { ChosenFlavour, ChosenContainer } from '../customer.component';
 })
 export class CustomerOrderFlavourComponent {
   @Input() flavourName = '';
-  @Input() containers: ChosenContainer[] = [
+  @Input() containers: Container[] = [
     {
       name: '',
       quantity: 0,
     },
   ];
-  @Output() flavour = new EventEmitter<ChosenFlavour>();
+  @Output() flavour = new EventEmitter<Flavour>();
 
-  public chosenFlavour: ChosenFlavour = {
+  public chosenFlavour: Flavour = {
     name: '',
     containers: [],
   };

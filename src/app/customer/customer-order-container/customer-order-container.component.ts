@@ -6,8 +6,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-//import { ChosenContainer } from '../customer.component';
-
 @Component({
   selector: 'app-customer-order-container',
   templateUrl: './customer-order-container.component.html',

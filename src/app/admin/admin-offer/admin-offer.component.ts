@@ -1,13 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  addDoc,
-  Firestore,
-  collection,
-  getDocs,
-  deleteDoc,
-  doc,
-} from '@angular/fire/firestore';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-admin-offer',
@@ -24,7 +17,10 @@ export class AdminOfferComponent implements OnInit {
   public isFormVisible = false;
   public whichForm = '';
   public whichList = '';
-  constructor(private formBuilder: FormBuilder, private firestore: Firestore) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit(): void {
     this.getFlavours();
@@ -34,45 +30,33 @@ export class AdminOfferComponent implements OnInit {
     });
   }
   getFlavours() {
-    const dbInstance = collection(this.firestore, 'flavours');
-    getDocs(dbInstance).then((response) => {
-      this.flavours = [
-        ...response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
-        }),
-      ];
-    });
+    return this.apiService.getData('flavours').subscribe(
+      (res) =>
+        (this.flavours = res.map((e: any) => {
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          };
+        }))
+    );
   }
   getContainers() {
-    const dbInstance = collection(this.firestore, 'containers');
-    getDocs(dbInstance).then((response) => {
-      this.containers = [
-        ...response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
-        }),
-      ];
-    });
+    return this.apiService.getData('containers').subscribe(
+      (res) =>
+        (this.containers = res.map((e: any) => {
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          };
+        }))
+    );
   }
   addItem(value: any, itemType: string) {
-    const dbInstance = collection(this.firestore, itemType);
-    addDoc(dbInstance, value)
-      .then(() => {
-        alert('Dodano pomyślnie');
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+    this.apiService.addData(value, itemType);
     this.addItemForm.reset();
   }
   deleteItem(id: string) {
-    const itemToDelete = doc(this.firestore, this.whichList, id);
-    deleteDoc(itemToDelete)
-      .then(() => {
-        alert('Usunięto pomyślnie');
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+    this.apiService.deleteData(id, this.whichList);
     this.getContainers();
     this.getFlavours();
     this.toggleModal();

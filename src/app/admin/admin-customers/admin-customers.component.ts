@@ -1,12 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import {
-  addDoc,
-  Firestore,
-  collection,
-  getDocs,
-} from '@angular/fire/firestore';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-admin-customers',
@@ -22,7 +17,7 @@ export class AdminCustomersComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private firestore: Firestore
+    private apiService: ApiService
   ) {}
   ngOnInit(): void {
     this.getCustomers();
@@ -38,14 +33,15 @@ export class AdminCustomersComponent implements OnInit {
     this.getCustomers();
   }
   getCustomers() {
-    const dbInstance = collection(this.firestore, 'users');
-    getDocs(dbInstance).then((response) => {
-      this.customers = [
-        ...response.docs.map((item) => {
-          return { ...item.data(), id: item.id };
-        }),
-      ];
-    });
+    this.apiService.getData('users').subscribe(
+      (res) =>
+        (this.customers = res.map((e: any) => {
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          };
+        }))
+    );
   }
   showModal(content: string) {
     this.isCustomersListVisible = false;
