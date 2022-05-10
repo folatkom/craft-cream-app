@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { listItem } from 'src/app/shared/model/flavour';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
@@ -9,9 +10,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminOfferComponent implements OnInit {
-  public flavours: any = [];
-  public containers: any = [];
-  public list: any;
+  public flavours: listItem[] = [];
+  public containers: listItem[] = [];
+  public list: any = [];
   public addItemForm!: FormGroup;
   public isModalVisible = false;
   public isFormVisible = false;
@@ -51,7 +52,7 @@ export class AdminOfferComponent implements OnInit {
         }))
     );
   }
-  addItem(value: any, itemType: string) {
+  addItem(value: listItem, itemType: string) {
     this.apiService.addData(value, itemType);
     this.addItemForm.reset();
   }
@@ -74,7 +75,7 @@ export class AdminOfferComponent implements OnInit {
     }
     this.toggleModal();
   }
-  submitForm(value: any) {
+  submitForm(value: listItem) {
     if (this.whichForm === 'addFlavour') {
       this.addItem(value, 'flavours');
       this.getFlavours();

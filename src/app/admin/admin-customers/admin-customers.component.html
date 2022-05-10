@@ -15,53 +15,10 @@
   <mat-card id="modal">
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
     <div *ngIf="isCustomersListVisible; else form">
-      <mat-card-title>Lista klientów</mat-card-title>
-
-      <ul>
-        <li *ngFor="let customer of customers">
-          {{ customer.email }}
-        </li>
-      </ul>
+      <app-admin-customers-list></app-admin-customers-list>
     </div>
-
     <ng-template #form>
-      <mat-card-title>Nowy klient</mat-card-title>
-      <form
-        [formGroup]="registerForm"
-        (ngSubmit)="addCustomer(registerForm.value)"
-      >
-        <label>E-mail<input formControlName="email" type="email" /></label>
-        <div class="errorMessage">
-          <ng-container
-            *ngIf="
-              registerForm.controls['email'].touched &&
-              registerForm.controls['email'].invalid
-            "
-          >
-            <p>Email nie może być pusty</p>
-          </ng-container>
-        </div>
-
-        <label>Hasło<input formControlName="password" type="password" /></label>
-        <div class="errorMessage">
-          <ng-container
-            *ngIf="
-              registerForm.controls['password'].touched &&
-              registerForm.controls['password'].invalid
-            "
-          >
-            <p>Hasło nie może być puste</p>
-          </ng-container>
-        </div>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="registerForm.invalid"
-        >
-          Dodaj
-        </button>
-      </form>
+      <app-admin-customers-form></app-admin-customers-form>
     </ng-template>
   </mat-card>
 </div>

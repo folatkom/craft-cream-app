@@ -1,0 +1,8 @@
+input {
+  display: block;
+  margin: auto;
+}
+.errorMessage {
+  height: 20px;
+  color: red;
+}

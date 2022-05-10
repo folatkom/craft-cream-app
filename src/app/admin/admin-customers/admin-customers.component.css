@@ -17,15 +17,3 @@ mat-card-title {
 #modal {
   margin: 10% auto;
 }
-input {
-  display: block;
-  margin: auto;
-}
-.errorMessage {
-  height: 20px;
-  color: red;
-}
-ul {
-  list-style-type: none;
-  padding-left: 0;
-}

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Flavour } from 'src/app/shared/model/flavour';
+import { Order } from 'src/app/shared/model/order';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
@@ -9,8 +10,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardComponent implements OnInit {
-  public orders: any = [];
-  public ordersByCustomer: any;
+  public orders: Order[] = [];
   public allOrders: Flavour[] = [];
   public allOrdersSummary: Flavour[] = [];
   public isModalVisible = false;
