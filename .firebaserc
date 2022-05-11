@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "craftcream-e5bab": {
+      "hosting": {
+        "craft-cream": [
+          "craftcream-e5bab"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "craftcream-e5bab"
+  }
+}
