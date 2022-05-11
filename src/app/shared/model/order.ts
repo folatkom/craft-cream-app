@@ -5,3 +5,7 @@ export interface Order {
   user: string;
   date: string;
 }
+export interface UserOrder {
+  order: Flavour[];
+  date: string;
+}

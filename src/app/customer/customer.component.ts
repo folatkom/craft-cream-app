@@ -3,7 +3,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { Flavour, listItem } from '../shared/model/flavour';
 import { ApiService } from '../shared/services/api.service';
 import { Container } from '@angular/compiler/src/i18n/i18n_ast';
-import { Order } from '../shared/model/order';
+import { UserOrder } from '../shared/model/order';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -20,14 +20,7 @@ export class CustomerComponent implements OnInit {
   public isModalVisible = false;
   public whichModal = '';
   public favourites: listItem[] = [];
-  public date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
-  public orders: Order[] = [];
-  public userOrder: any;
-  // public userOrder: Order = {
-  //   user: '',
-  //   date: '',
-  //   order: [],
-  // };
+  public orders: UserOrder[] = [];
 
   constructor(
     private authService: AuthService,
@@ -40,7 +33,7 @@ export class CustomerComponent implements OnInit {
     this.getFlavours();
     this.getContainers();
     this.getFavourites();
-    this.getOrder();
+    this.getOrders();
   }
 
   getFlavours() {
@@ -77,22 +70,13 @@ export class CustomerComponent implements OnInit {
         }))
     );
   }
-  getOrder() {
-    this.apiService.getData('orders').subscribe((res) => {
+  getOrders() {
+    this.apiService.getData(`users/${this.uid}/orders`).subscribe((res) => {
       this.orders = res.map((e: any) => {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data(),
         };
-      });
-      this.orders.map((el: any) => {
-        if (el.user === this.loggedCustomer) {
-          this.userOrder = el;
-          if (this.date !== el.date) {
-            this.apiService.deleteData(this.userOrder.id, 'orders');
-            this.userOrder.length = 0;
-          }
-        }
       });
     });
   }
