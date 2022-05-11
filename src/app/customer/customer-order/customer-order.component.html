@@ -10,7 +10,7 @@
   </ng-container>
   <ng-container *ngSwitchCase="1">
     <div *ngIf="previousOrder.order.length != 0; else noPreviousorder">
-      <div>Zamówienie z dnia {{ previousOrder.date }}</div>
+      <mat-card-subtitle>Ostatnie zamówienie</mat-card-subtitle>
       <ul>
         <li *ngFor="let order of previousOrder.order">
           <mat-card-subtitle>{{ order.name }}</mat-card-subtitle>
