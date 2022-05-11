@@ -8,17 +8,7 @@ export class ApiService {
   constructor(private firestore: AngularFirestore) {}
 
   addData(data: any, collection: string) {
-    this.firestore
-      .collection(collection)
-      .add(data)
-      .then(
-        (res) => {
-          alert('Dodano pomyślnie');
-        },
-        (err) => {
-          alert(err.message);
-        }
-      );
+    return this.firestore.collection(collection).add(data);
   }
   deleteData(id: string, collection: string) {
     return this.firestore
@@ -26,7 +16,7 @@ export class ApiService {
       .delete()
       .then(
         (res) => {
-          alert('Usunięto pomyślnie');
+          alert('Usunięto');
         },
         (err) => {
           alert(err.message);

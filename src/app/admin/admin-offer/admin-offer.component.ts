@@ -53,7 +53,14 @@ export class AdminOfferComponent implements OnInit {
     );
   }
   addItem(value: listItem, itemType: string) {
-    this.apiService.addData(value, itemType);
+    this.apiService.addData(value, itemType).then(
+      (res) => {
+        alert('Dodano pomyślnie');
+      },
+      (err) => {
+        alert(err.message);
+      }
+    );
     this.addItemForm.reset();
   }
   deleteItem(id: string) {

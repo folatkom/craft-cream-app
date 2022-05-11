@@ -59,10 +59,19 @@ export class CustomerOrderComponent implements OnInit {
     }
   }
   sendOrder(order: Flavour[]) {
-    this.apiService.addData(
-      { order: [...order], date: this.date },
-      `users/${this.uid}/orders`
-    );
+    this.apiService
+      .addData(
+        { order: [...order], date: this.date },
+        `users/${this.uid}/orders`
+      )
+      .then(
+        (res) => {
+          alert('Zamówienie zostało złożone');
+        },
+        (err) => {
+          alert(err.message);
+        }
+      );
     this.apiService.addData(
       { order: [...order], user: this.loggedCustomer, date: this.date },
       'orders'

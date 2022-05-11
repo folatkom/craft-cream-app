@@ -20,7 +20,7 @@
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
     <div *ngIf="isSummaryVisible; else details">
       <app-admin-dashboard-summary
-        [orders]="orders"
+        [orders]="currentOrders"
       ></app-admin-dashboard-summary>
     </div>
     <ng-template #details>

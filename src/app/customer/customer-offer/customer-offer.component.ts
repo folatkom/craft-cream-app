@@ -29,7 +29,14 @@ export class CustomerOfferComponent implements OnInit {
     const flavourToAdd = {
       name: flavour.name,
     };
-    this.apiService.addData(flavourToAdd, `users/${this.uid}/favourites`);
+    this.apiService.addData(flavourToAdd, `users/${this.uid}/favourites`).then(
+      (res) => {
+        alert('Dodano do ulubionych');
+      },
+      (err) => {
+        alert(err.message);
+      }
+    );
     this.clickButton.emit();
   }
   deleteFavourites(flavour: string) {
@@ -40,6 +47,7 @@ export class CustomerOfferComponent implements OnInit {
       favouriteToDelete[0].id,
       `users/${this.uid}/favourites`
     );
+
     this.clickButton.emit();
   }
   isFavourite(flavour: string): boolean {

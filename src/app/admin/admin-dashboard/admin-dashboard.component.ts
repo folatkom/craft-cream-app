@@ -12,6 +12,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class AdminDashboardComponent implements OnInit {
   public orders: Order[] = [];
+  public currentOrders: Order[] = [];
   public isModalVisible = false;
   public isSummaryVisible = false;
   public date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
@@ -30,8 +31,8 @@ export class AdminDashboardComponent implements OnInit {
         };
       });
       this.orders.map((el: any) => {
-        if (this.date !== el.date) {
-          this.apiService.deleteData(el.id, 'orders');
+        if (this.date === el.date) {
+          this.currentOrders.push(el);
         }
       });
     });

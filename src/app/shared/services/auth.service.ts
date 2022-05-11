@@ -38,8 +38,8 @@ export class AuthService {
   }
 
   login(value: any) {
-    signInWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((result) => {
+    signInWithEmailAndPassword(this.auth, value.email, value.password).then(
+      (res) => {
         if (value.email === 'lodziarz@craftcream.com') {
           this.isLoggedInAdmin = true;
           this.isLoggedInCustomer = false;
@@ -48,24 +48,27 @@ export class AuthService {
           this.isLoggedInCustomer = true;
           this.isLoggedInAdmin = false;
           this.router.navigate(['app/customer']);
-          this.SetUserData(result.user);
+          this.SetUserData(res.user);
         }
-      })
-      .catch(() => {
+      },
+      (err) => {
         alert('Niewłaściwy email lub hasło');
-      });
+      }
+    );
   }
   logout() {
     this.router.navigate(['auth']);
   }
   addCustomer(value: any) {
-    createUserWithEmailAndPassword(this.auth, value.email, value.password)
-      .then((result) => {
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        window.alert(error.message);
-      });
+    createUserWithEmailAndPassword(this.auth, value.email, value.password).then(
+      (res) => {
+        this.SetUserData(res.user);
+        alert('Dodano użytkownika');
+      },
+      (err) => {
+        alert(err.message);
+      }
+    );
   }
   SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
