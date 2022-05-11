@@ -4,7 +4,6 @@ import { Flavour, listItem } from '../shared/model/flavour';
 import { ApiService } from '../shared/services/api.service';
 import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 import { UserOrder } from '../shared/model/order';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-customer',
