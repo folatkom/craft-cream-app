@@ -1,27 +1,46 @@
 <mat-card-title>Twoje zamówienie</mat-card-title>
 <ng-container [ngSwitch]="step">
-  <div *ngSwitchCase="0">
+  <ng-container *ngSwitchCase="0">
     <button mat-raised-button color="accent" (click)="step = 1">
       Ostatnie zamówienie
     </button>
     <button mat-raised-button color="primary" (click)="step = 2">
       Nowe zamówienie
     </button>
-  </div>
-  <div *ngSwitchCase="1">
-    <div>Zamówienie z dnia {{ previousOrder.date }}</div>
-    <ul>
-      <li *ngFor="let order of previousOrder.order">
-        <mat-card-subtitle>{{ order.name }}</mat-card-subtitle>
-        <ul>
-          <li *ngFor="let container of order.containers">
-            {{ container.name }} - {{ container.quantity }} szt.
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-  <div *ngSwitchCase="2">
+  </ng-container>
+  <ng-container *ngSwitchCase="1">
+    <div *ngIf="previousOrder.order.length != 0; else noPreviousorder">
+      <div>Zamówienie z dnia {{ previousOrder.date }}</div>
+      <ul>
+        <li *ngFor="let order of previousOrder.order">
+          <mat-card-subtitle>{{ order.name }}</mat-card-subtitle>
+          <ul>
+            <li *ngFor="let container of order.containers">
+              {{ container.name }} - {{ container.quantity }} szt.
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="userOrder.length != 0"
+        (click)="sendOrder(previousOrder.order)"
+      >
+        Zamów ponownie
+      </button>
+      <div class="message" *ngIf="userOrder.length != 0">
+        Możesz zamówić jedno zamówienie dziennie.
+      </div>
+    </div>
+    <ng-template #noPreviousorder>
+      Nie masz jeszcze historii zamówień.
+      <button mat-raised-button color="primary" (click)="step = 2">
+        Nowe zamówienie
+      </button>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
     <div *ngIf="userOrder.length == 0; else currentOrder">
       <mat-card-subtitle>Ulubione smaki</mat-card-subtitle>
       <app-customer-order-flavour
@@ -40,7 +59,12 @@
           (flavour)="updateOrder($event)"
         >
         </app-customer-order-flavour></ng-container
-      ><button mat-raised-button color="primary" (click)="step = 3">
+      ><button
+        mat-raised-button
+        color="primary"
+        (click)="step = 3"
+        [disabled]="order.length == 0"
+      >
         Zatwierdź
       </button>
     </div>
@@ -61,8 +85,8 @@
         <div>Zapraszamy jutro!</div>
       </div>
     </ng-template>
-  </div>
-  <div *ngSwitchCase="3">
+  </ng-container>
+  <ng-container *ngSwitchCase="3">
     <mat-card-subtitle>Podsumowanie zamówienia</mat-card-subtitle>
     <div>Zamówienie z dnia {{ date }}</div>
     <ul>
@@ -75,8 +99,8 @@
         </ul>
       </li>
     </ul>
-    <button mat-raised-button color="primary" (click)="sendOrder()">
+    <button mat-raised-button color="primary" (click)="sendOrder(order)">
       Zamów
     </button>
-  </div>
+  </ng-container>
 </ng-container>

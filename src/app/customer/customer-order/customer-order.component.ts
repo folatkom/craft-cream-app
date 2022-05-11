@@ -28,7 +28,10 @@ export class CustomerOrderComponent implements OnInit {
   @Output() clickButton = new EventEmitter<void>();
   public order: Flavour[] = [];
   public userOrder: Flavour[] = [];
-  public previousOrder: any;
+  public previousOrder: UserOrder = {
+    order: [],
+    date: '',
+  };
   public date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
   public step: number = 0;
 
@@ -39,11 +42,11 @@ export class CustomerOrderComponent implements OnInit {
     console.log(this.orders);
   }
   isFavourite(flavour: string): boolean {
-    return this.favourites.some((item: any) => item.name === flavour);
+    return this.favourites.some((item: listItem) => item.name === flavour);
   }
   getUserOrder() {
-    this.orders.map((el: any) => {
-      if (this.date !== el.date) {
+    this.orders.map((el: UserOrder) => {
+      if (this.date === el.date) {
         this.userOrder = el.order;
       }
       this.previousOrder = el;
@@ -51,15 +54,17 @@ export class CustomerOrderComponent implements OnInit {
   }
   updateOrder(flavour: Flavour) {
     this.order = this.order.filter((item) => item.name !== flavour.name);
-    this.order.push(flavour);
+    if (flavour.containers.length !== 0) {
+      this.order.push(flavour);
+    }
   }
-  sendOrder() {
+  sendOrder(order: Flavour[]) {
     this.apiService.addData(
-      { order: [...this.order], date: this.date },
+      { order: [...order], date: this.date },
       `users/${this.uid}/orders`
     );
     this.apiService.addData(
-      { order: [...this.order], user: this.loggedCustomer, date: this.date },
+      { order: [...order], user: this.loggedCustomer, date: this.date },
       'orders'
     );
     this.clickButton.emit();

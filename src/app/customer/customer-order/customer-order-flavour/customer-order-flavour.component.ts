@@ -30,11 +30,12 @@ export class CustomerOrderFlavourComponent {
     this.chosenFlavour.containers = this.chosenFlavour.containers.filter(
       (item) => item.name !== containerName
     );
-    this.chosenFlavour.containers.push({
-      name: containerName,
-      quantity: quantity,
-    });
-
+    if (quantity !== 0) {
+      this.chosenFlavour.containers.push({
+        name: containerName,
+        quantity: quantity,
+      });
+    }
     this.emitFlavour();
   }
 }
