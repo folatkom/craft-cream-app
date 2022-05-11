@@ -12,8 +12,6 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class AdminDashboardComponent implements OnInit {
   public orders: Order[] = [];
-  public allOrders: Flavour[] = [];
-  public allOrdersSummary: Flavour[] = [];
   public isModalVisible = false;
   public isSummaryVisible = false;
   public date = formatDate(new Date(), 'dd/MM/yyyy', 'en-US');
@@ -36,49 +34,9 @@ export class AdminDashboardComponent implements OnInit {
           this.apiService.deleteData(el.id, 'orders');
         }
       });
-      this.getAllOrders();
     });
   }
-  getAllOrders() {
-    this.allOrders = this.orders.flatMap((item: any) => {
-      return item.order;
-    });
-    this.allOrders.forEach((flavourToCheck) => {
-      if (
-        !this.allOrdersSummary.some(
-          (item: Flavour) => item.name === flavourToCheck.name
-        )
-      ) {
-        this.allOrdersSummary.push(flavourToCheck);
-      } else {
-        let elementToUpdate = this.allOrders.find(
-          (el) => el.name == flavourToCheck.name
-        );
-        flavourToCheck.containers.forEach((containerToCheck) => {
-          if (
-            !elementToUpdate?.containers.some(
-              (item) => item.name === containerToCheck.name
-            )
-          ) {
-            elementToUpdate?.containers.push(containerToCheck);
-          } else {
-            let containerToUpdate = elementToUpdate.containers.find(
-              (el) => el.name == containerToCheck.name
-            );
-            elementToUpdate.containers = elementToUpdate.containers.filter(
-              (item) => item.name !== containerToCheck.name
-            );
-            containerToUpdate!.quantity += containerToCheck.quantity;
-            elementToUpdate.containers.push(containerToUpdate!);
-          }
-        });
-        this.allOrdersSummary = this.allOrdersSummary.filter(
-          (item) => item.name !== flavourToCheck.name
-        );
-        this.allOrdersSummary.push(elementToUpdate!);
-      }
-    });
-  }
+
   showModal(value: string) {
     if (value === 'summary') {
       this.isSummaryVisible = true;

@@ -1,0 +1,14 @@
+<mat-card-title>Podsumowanie zamówień</mat-card-title>
+<ul *ngIf="allOrdersSummary.length; else noOrders">
+  <li *ngFor="let order of allOrdersSummary">
+    <mat-card-subtitle>{{ order.name }}</mat-card-subtitle>
+    <ul>
+      <li *ngFor="let container of order.containers">
+        {{ container.name }} - {{ container.quantity }} szt.
+      </li>
+    </ul>
+  </li>
+</ul>
+<ng-template #noOrders>
+  <mat-card-subtitle>Dziś jeszcze nie ma zamówień</mat-card-subtitle>
+</ng-template>

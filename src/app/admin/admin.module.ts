@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AdminOfferComponent } from './admin-offer/admin-offer.component';
 import { AdminCustomersFormComponent } from './admin-customers/admin-customers-form/admin-customers-form.component';
 import { AdminCustomersListComponent } from './admin-customers/admin-customers-list/customers-list.component';
+import { AdminDashboardSummaryComponent } from './admin-dashboard/admin-dashboard-summary/admin-dashboard-summary.component';
+import { AdminDashboardOrdersComponent } from './admin-dashboard/admin-dashboard-orders/admin-dashboard-orders.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { AdminCustomersListComponent } from './admin-customers/admin-customers-l
     AdminOfferComponent,
     AdminCustomersFormComponent,
     AdminCustomersListComponent,
+    AdminDashboardSummaryComponent,
+    AdminDashboardOrdersComponent,
   ],
   imports: [
     SharedModule,

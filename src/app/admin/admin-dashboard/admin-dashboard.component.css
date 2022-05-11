@@ -7,9 +7,7 @@ mat-card {
 mat-card-title {
   padding: 10px;
 }
-mat-card-subtitle {
-  margin: 10px;
-}
+
 #modal-container {
   position: absolute;
   height: 100%;
@@ -19,8 +17,4 @@ mat-card-subtitle {
 }
 #modal {
   margin: 10% auto;
-}
-ul {
-  list-style: none;
-  padding-left: 0;
 }
