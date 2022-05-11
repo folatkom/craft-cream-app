@@ -24,6 +24,7 @@ export class AdminOfferComponent implements OnInit, OnDestroy {
   public isFormVisible = false;
   public whichForm = '';
   public whichList = '';
+  public inputValue = '';
 
   private subscriptions = new Subscription();
 
@@ -111,6 +112,10 @@ export class AdminOfferComponent implements OnInit, OnDestroy {
 
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
+  }
+
+  blockWhitespace() {
+    this.inputValue = this.inputValue.replace(/^\s*/, '');
   }
 
   ngOnDestroy(): void {

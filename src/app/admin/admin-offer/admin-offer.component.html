@@ -37,7 +37,14 @@
         [formGroup]="addItemForm"
         (ngSubmit)="submitForm(addItemForm.value)"
       >
-        <label>nazwa: <input formControlName="name" type="text" /></label>
+        <label
+          >nazwa:
+          <input
+            formControlName="name"
+            type="text"
+            [(ngModel)]="inputValue"
+            (keyup)="blockWhitespace()"
+        /></label>
         <button
           mat-raised-button
           color="primary"
