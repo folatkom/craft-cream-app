@@ -43,13 +43,16 @@
   <ng-container *ngSwitchCase="2">
     <div *ngIf="userOrder.length == 0; else currentOrder">
       <mat-card-subtitle>Ulubione smaki</mat-card-subtitle>
-      <app-customer-order-flavour
-        *ngFor="let flavour of favourites"
-        [flavourName]="flavour.name"
-        [containers]="containers"
-        (flavour)="updateOrder($event)"
-      >
-      </app-customer-order-flavour>
+      <ng-container *ngFor="let flavour of favourites">
+        <app-customer-order-flavour
+          *ngIf="isFavourite(flavour.name)"
+          [flavourName]="flavour.name"
+          [containers]="containers"
+          (flavour)="updateOrder($event)"
+        >
+        </app-customer-order-flavour>
+      </ng-container>
+
       <mat-card-subtitle>Pozostałe smaki</mat-card-subtitle>
       <ng-container *ngFor="let flavour of flavours"
         ><app-customer-order-flavour

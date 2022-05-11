@@ -38,11 +38,13 @@ export class CustomerOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserOrder();
-    console.log(this.orders);
   }
 
   isFavourite(flavour: string): boolean {
-    return this.favourites.some((item: listItem) => item.name === flavour);
+    return (
+      this.favourites.some((item: listItem) => item.name === flavour) &&
+      this.flavours.some((item: listItem) => item.name === flavour)
+    );
   }
 
   getUserOrder() {
