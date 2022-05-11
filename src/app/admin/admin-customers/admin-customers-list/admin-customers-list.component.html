@@ -1,6 +1,9 @@
 <mat-card-title>Lista klientów</mat-card-title>
-<ul>
+<ul *ngIf="customers.length; else noCustomers">
   <li *ngFor="let customer of customers">
     {{ customer.email }}
   </li>
 </ul>
+<ng-template #noCustomers>
+  <mat-card-subtitle>Nie masz jeszcze klientów</mat-card-subtitle>
+</ng-template>

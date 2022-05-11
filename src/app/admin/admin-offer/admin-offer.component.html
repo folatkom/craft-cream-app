@@ -25,12 +25,13 @@
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
 
     <div *ngIf="!isFormVisible; else form">
-      <ul>
+      <ul *ngIf="list.length; else noList">
         <li *ngFor="let item of list">
           {{ item.name }}
           <mat-icon (click)="deleteItem(item.id)"> delete_outline</mat-icon>
         </li>
       </ul>
+      <ng-template #noList> Tu jeszcze nic nie ma </ng-template>
     </div>
 
     <ng-template #form>

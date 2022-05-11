@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
@@ -7,11 +7,25 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./admin-customers.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminCustomersComponent {
+export class AdminCustomersComponent implements OnInit {
+  public customers: any = [];
   public isModalVisible = false;
   public isCustomersListVisible = false;
-  constructor() {}
-
+  constructor(private apiService: ApiService) {}
+  ngOnInit(): void {
+    this.getCustomers();
+  }
+  getCustomers() {
+    this.apiService.getData('users').subscribe(
+      (res) =>
+        (this.customers = res.map((e: any) => {
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          };
+        }))
+    );
+  }
   showModal(content: string) {
     this.isCustomersListVisible = false;
     if (content === 'list') {

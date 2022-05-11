@@ -15,7 +15,9 @@
   <mat-card id="modal">
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
     <div *ngIf="isCustomersListVisible; else form">
-      <app-admin-customers-list></app-admin-customers-list>
+      <app-admin-customers-list
+        [customers]="customers"
+      ></app-admin-customers-list>
     </div>
     <ng-template #form>
       <app-admin-customers-form></app-admin-customers-form>
