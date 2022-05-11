@@ -17,11 +17,11 @@ export class AdminDashboardSummaryComponent implements OnInit {
   @Input() orders: Order[] = [];
   public allOrders: Flavour[] = [];
   public allOrdersSummary: Flavour[] = [];
-  constructor() {}
 
   ngOnInit(): void {
     this.getAllOrders();
   }
+
   getAllOrders() {
     this.allOrders = this.orders.flatMap((item: any) => {
       return item.order;

@@ -56,9 +56,11 @@ export class AuthService {
       }
     );
   }
+
   logout() {
     this.router.navigate(['auth']);
   }
+
   addCustomer(value: any) {
     createUserWithEmailAndPassword(this.auth, value.email, value.password).then(
       (res) => {
@@ -70,6 +72,7 @@ export class AuthService {
       }
     );
   }
+
   SetUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`

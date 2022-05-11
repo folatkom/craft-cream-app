@@ -8,9 +8,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Flavour, listItem } from 'src/app/shared/model/flavour';
-import { Order, UserOrder } from 'src/app/shared/model/order';
+import { UserOrder } from 'src/app/shared/model/order';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-customer-order',
@@ -41,9 +40,11 @@ export class CustomerOrderComponent implements OnInit {
     this.getUserOrder();
     console.log(this.orders);
   }
+
   isFavourite(flavour: string): boolean {
     return this.favourites.some((item: listItem) => item.name === flavour);
   }
+
   getUserOrder() {
     this.orders.map((el: UserOrder) => {
       if (this.date === el.date) {
@@ -52,12 +53,14 @@ export class CustomerOrderComponent implements OnInit {
       this.previousOrder = el;
     });
   }
+
   updateOrder(flavour: Flavour) {
     this.order = this.order.filter((item) => item.name !== flavour.name);
     if (flavour.containers.length !== 0) {
       this.order.push(flavour);
     }
   }
+
   sendOrder(order: Flavour[]) {
     this.apiService
       .addData(

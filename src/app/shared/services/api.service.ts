@@ -10,6 +10,7 @@ export class ApiService {
   addData(data: any, collection: string) {
     return this.firestore.collection(collection).add(data);
   }
+
   deleteData(id: string, collection: string) {
     return this.firestore
       .doc(`${collection}/${id}`)
@@ -23,6 +24,7 @@ export class ApiService {
         }
       );
   }
+
   getData(collection: string) {
     return this.firestore.collection(collection).snapshotChanges();
   }

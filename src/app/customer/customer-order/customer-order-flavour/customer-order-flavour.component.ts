@@ -17,14 +17,15 @@ export class CustomerOrderFlavourComponent {
   @Input() flavourName = '';
   @Input() containers: Container[] = [];
   @Output() flavour = new EventEmitter<Flavour>();
-
   public chosenFlavour: Flavour = {
     name: '',
     containers: [],
   };
+
   emitFlavour() {
     this.flavour.emit(this.chosenFlavour);
   }
+
   getContainersChoice(quantity: number, containerName: string) {
     this.chosenFlavour.name = this.flavourName;
     this.chosenFlavour.containers = this.chosenFlavour.containers.filter(

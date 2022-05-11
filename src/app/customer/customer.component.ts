@@ -1,9 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
 import { Flavour, listItem } from '../shared/model/flavour';
 import { ApiService } from '../shared/services/api.service';
 import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 import { UserOrder } from '../shared/model/order';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-customer',
@@ -11,7 +17,7 @@ import { UserOrder } from '../shared/model/order';
   styleUrls: ['./customer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements OnInit, OnDestroy {
   public loggedCustomer = '';
   public uid = '';
   public flavours: Flavour[] = [];
@@ -20,6 +26,8 @@ export class CustomerComponent implements OnInit {
   public whichModal = '';
   public favourites: listItem[] = [];
   public orders: UserOrder[] = [];
+
+  private subscriptions = new Subscription();
 
   constructor(
     private authService: AuthService,
@@ -36,7 +44,7 @@ export class CustomerComponent implements OnInit {
   }
 
   getFlavours() {
-    this.apiService.getData('flavours').subscribe(
+    const sub = this.apiService.getData('flavours').subscribe(
       (res) =>
         (this.flavours = res.map((e: any) => {
           return {
@@ -45,9 +53,11 @@ export class CustomerComponent implements OnInit {
           };
         }))
     );
+    this.subscriptions.add(sub);
   }
+
   getContainers() {
-    this.apiService.getData('containers').subscribe(
+    const sub = this.apiService.getData('containers').subscribe(
       (res) =>
         (this.containers = res.map((e: any) => {
           return {
@@ -56,34 +66,48 @@ export class CustomerComponent implements OnInit {
           };
         }))
     );
-    console.log(this.containers);
+    this.subscriptions.add(sub);
   }
+
   getFavourites() {
-    this.apiService.getData(`users/${this.uid}/favourites`).subscribe(
-      (res) =>
-        (this.favourites = res.map((e: any) => {
+    const sub = this.apiService
+      .getData(`users/${this.uid}/favourites`)
+      .subscribe(
+        (res) =>
+          (this.favourites = res.map((e: any) => {
+            return {
+              id: e.payload.doc.id,
+              ...e.payload.doc.data(),
+            };
+          }))
+      );
+    this.subscriptions.add(sub);
+  }
+
+  getOrders() {
+    const sub = this.apiService
+      .getData(`users/${this.uid}/orders`)
+      .subscribe((res) => {
+        this.orders = res.map((e: any) => {
           return {
             id: e.payload.doc.id,
             ...e.payload.doc.data(),
           };
-        }))
-    );
-  }
-  getOrders() {
-    this.apiService.getData(`users/${this.uid}/orders`).subscribe((res) => {
-      this.orders = res.map((e: any) => {
-        return {
-          id: e.payload.doc.id,
-          ...e.payload.doc.data(),
-        };
+        });
       });
-    });
+    this.subscriptions.add(sub);
   }
+
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
   }
+
   showModal(whichModal: string) {
     this.whichModal = whichModal;
     this.toggleModal();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

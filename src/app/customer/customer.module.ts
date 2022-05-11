@@ -23,17 +23,6 @@ import { CustomerOrderComponent } from './customer-order/customer-order.componen
       {
         path: '',
         component: CustomerComponent,
-        // children: [
-        //   {
-        //     path: 'order',
-        //     component: AdminDashboardComponent,
-        //   },
-        //   {
-        //     path: 'customers',
-        //     component: AdminCustomersComponent,
-        //   },
-
-        // ],
       },
     ]),
   ],

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   Input,
   Output,
@@ -15,7 +14,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./customer-offer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomerOfferComponent implements OnInit {
+export class CustomerOfferComponent {
   @Input() flavours: Flavour[] = [];
   @Input() containers: any = [];
   @Input() favourites: any = [];
@@ -24,7 +23,6 @@ export class CustomerOfferComponent implements OnInit {
 
   constructor(private apiService: ApiService) {}
 
-  ngOnInit(): void {}
   addToFavourites(flavour: any) {
     const flavourToAdd = {
       name: flavour.name,
@@ -39,6 +37,7 @@ export class CustomerOfferComponent implements OnInit {
     );
     this.clickButton.emit();
   }
+
   deleteFavourites(flavour: string) {
     const favouriteToDelete = this.favourites.filter(
       (item: any) => item.name === flavour
@@ -47,9 +46,9 @@ export class CustomerOfferComponent implements OnInit {
       favouriteToDelete[0].id,
       `users/${this.uid}/favourites`
     );
-
     this.clickButton.emit();
   }
+
   isFavourite(flavour: string): boolean {
     return this.favourites.some((item: any) => item.name === flavour);
   }

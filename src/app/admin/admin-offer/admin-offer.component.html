@@ -23,7 +23,6 @@
 <div id="modal-container" *ngIf="isModalVisible">
   <mat-card id="modal">
     <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
-
     <div *ngIf="!isFormVisible; else form">
       <ul *ngIf="list.length; else noList">
         <li *ngFor="let item of list">
@@ -33,7 +32,6 @@
       </ul>
       <ng-template #noList> Tu jeszcze nic nie ma </ng-template>
     </div>
-
     <ng-template #form>
       <form
         [formGroup]="addItemForm"

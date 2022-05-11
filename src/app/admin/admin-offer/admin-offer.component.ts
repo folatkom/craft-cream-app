@@ -1,5 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { listItem } from 'src/app/shared/model/flavour';
 import { ApiService } from 'src/app/shared/services/api.service';
 
@@ -9,7 +15,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./admin-offer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminOfferComponent implements OnInit {
+export class AdminOfferComponent implements OnInit, OnDestroy {
   public flavours: listItem[] = [];
   public containers: listItem[] = [];
   public list: any = [];
@@ -18,6 +24,9 @@ export class AdminOfferComponent implements OnInit {
   public isFormVisible = false;
   public whichForm = '';
   public whichList = '';
+
+  private subscriptions = new Subscription();
+
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService
@@ -30,8 +39,9 @@ export class AdminOfferComponent implements OnInit {
       name: this.formBuilder.control('', [Validators.required]),
     });
   }
+
   getFlavours() {
-    return this.apiService.getData('flavours').subscribe(
+    const sub = this.apiService.getData('flavours').subscribe(
       (res) =>
         (this.flavours = res.map((e: any) => {
           return {
@@ -40,9 +50,11 @@ export class AdminOfferComponent implements OnInit {
           };
         }))
     );
+    this.subscriptions.add(sub);
   }
+
   getContainers() {
-    return this.apiService.getData('containers').subscribe(
+    const sub = this.apiService.getData('containers').subscribe(
       (res) =>
         (this.containers = res.map((e: any) => {
           return {
@@ -51,7 +63,9 @@ export class AdminOfferComponent implements OnInit {
           };
         }))
     );
+    this.subscriptions.add(sub);
   }
+
   addItem(value: listItem, itemType: string) {
     this.apiService.addData(value, itemType).then(
       (res) => {
@@ -63,12 +77,14 @@ export class AdminOfferComponent implements OnInit {
     );
     this.addItemForm.reset();
   }
+
   deleteItem(id: string) {
     this.apiService.deleteData(id, this.whichList);
     this.getContainers();
     this.getFlavours();
     this.toggleModal();
   }
+
   showModal(whichList: string) {
     this.isFormVisible = false;
     this.whichList = whichList;
@@ -82,6 +98,7 @@ export class AdminOfferComponent implements OnInit {
     }
     this.toggleModal();
   }
+
   submitForm(value: listItem) {
     if (this.whichForm === 'addFlavour') {
       this.addItem(value, 'flavours');
@@ -91,7 +108,12 @@ export class AdminOfferComponent implements OnInit {
       this.getContainers();
     }
   }
+
   toggleModal() {
     this.isModalVisible = !this.isModalVisible;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
