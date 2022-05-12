@@ -3,21 +3,6 @@ mat-card {
   text-align: center;
   padding: 6vw;
 }
-#modal-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  background-color: rgba(250, 250, 250, 0.411);
-}
-#modal {
-  margin: 10% auto;
-}
-ul {
-  list-style-type: none;
-  padding-left: 0;
-}
 input {
-  display: block;
   margin: 5% auto;
 }

@@ -18,28 +18,26 @@
     </a>
   </mat-grid-tile>
 </mat-grid-list>
-<div id="modal-container" *ngIf="isModalVisible">
-  <mat-card id="modal">
-    <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
-    <div *ngIf="whichModal === 'offer'; else makeOrder">
-      <app-customer-offer
-        [flavours]="flavours"
-        [containers]="containers"
-        [favourites]="favourites"
-        [uid]="uid"
-        (clickButton)="toggleModal()"
-      ></app-customer-offer>
-    </div>
-    <ng-template #makeOrder>
-      <app-customer-order
-        [flavours]="flavours"
-        [containers]="containers"
-        [favourites]="favourites"
-        [uid]="uid"
-        [loggedCustomer]="loggedCustomer"
-        [orders]="orders"
-        (clickButton)="toggleModal()"
-      ></app-customer-order>
-    </ng-template>
-  </mat-card>
-</div>
+<app-modal *ngIf="isModalVisible">
+  <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
+  <div *ngIf="whichModal === 'offer'; else makeOrder">
+    <app-customer-offer
+      [flavours]="flavours"
+      [containers]="containers"
+      [favourites]="favourites"
+      [uid]="uid"
+      (clickButton)="toggleModal()"
+    ></app-customer-offer>
+  </div>
+  <ng-template #makeOrder>
+    <app-customer-order
+      [flavours]="flavours"
+      [containers]="containers"
+      [favourites]="favourites"
+      [uid]="uid"
+      [loggedCustomer]="loggedCustomer"
+      [orders]="orders"
+      (clickButton)="toggleModal()"
+    ></app-customer-order>
+  </ng-template>
+</app-modal>

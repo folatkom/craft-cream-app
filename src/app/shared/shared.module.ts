@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalComponent } from './components/modal/modal.component';
 
 const MATERIALS_MODULES = [
   MatToolbarModule,
@@ -18,8 +19,8 @@ const MATERIALS_MODULES = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ModalComponent],
   imports: [CommonModule, MATERIALS_MODULES],
-  exports: [MATERIALS_MODULES],
+  exports: [MATERIALS_MODULES, ModalComponent],
 })
 export class SharedModule {}

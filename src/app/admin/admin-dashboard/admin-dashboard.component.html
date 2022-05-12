@@ -14,18 +14,14 @@
     >
   </mat-grid-tile>
 </mat-grid-list>
-<div id="modal-container" *ngIf="isModalVisible">
-  <mat-card id="modal">
-    <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
-    <div *ngIf="isSummaryVisible; else details">
-      <app-admin-dashboard-summary
-        [orders]="currentOrders"
-      ></app-admin-dashboard-summary>
-    </div>
-    <ng-template #details>
-      <app-admin-dashboard-orders
-        [orders]="orders"
-      ></app-admin-dashboard-orders>
-    </ng-template>
-  </mat-card>
-</div>
+<app-modal *ngIf="isModalVisible">
+  <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
+  <div *ngIf="isSummaryVisible; else details">
+    <app-admin-dashboard-summary
+      [orders]="currentOrders"
+    ></app-admin-dashboard-summary>
+  </div>
+  <ng-template #details>
+    <app-admin-dashboard-orders [orders]="orders"></app-admin-dashboard-orders>
+  </ng-template>
+</app-modal>

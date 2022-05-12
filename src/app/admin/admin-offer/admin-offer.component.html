@@ -20,40 +20,35 @@
     </a>
   </mat-grid-tile>
 </mat-grid-list>
-<div id="modal-container" *ngIf="isModalVisible">
-  <mat-card id="modal">
-    <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
-    <div *ngIf="!isFormVisible; else form">
-      <ul *ngIf="list.length; else noList">
-        <li *ngFor="let item of list">
-          {{ item.name }}
-          <mat-icon (click)="deleteItem(item.id)"> delete_outline</mat-icon>
-        </li>
-      </ul>
-      <ng-template #noList> Tu jeszcze nic nie ma </ng-template>
-    </div>
-    <ng-template #form>
-      <form
-        [formGroup]="addItemForm"
-        (ngSubmit)="submitForm(addItemForm.value)"
+<app-modal *ngIf="isModalVisible">
+  <mat-icon (click)="toggleModal()">highlight_off</mat-icon>
+  <div *ngIf="!isFormVisible; else form">
+    <ul *ngIf="list.length; else noList">
+      <li *ngFor="let item of list">
+        {{ item.name }}
+        <mat-icon (click)="deleteItem(item.id)"> delete_outline</mat-icon>
+      </li>
+    </ul>
+    <ng-template #noList> Tu jeszcze nic nie ma </ng-template>
+  </div>
+  <ng-template #form>
+    <form [formGroup]="addItemForm" (ngSubmit)="submitForm(addItemForm.value)">
+      <label
+        >nazwa:
+        <input
+          formControlName="name"
+          type="text"
+          [(ngModel)]="inputValue"
+          (keyup)="blockWhitespace()"
+      /></label>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="addItemForm.invalid"
       >
-        <label
-          >nazwa:
-          <input
-            formControlName="name"
-            type="text"
-            [(ngModel)]="inputValue"
-            (keyup)="blockWhitespace()"
-        /></label>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="addItemForm.invalid"
-        >
-          Dodaj
-        </button>
-      </form>
-    </ng-template>
-  </mat-card>
-</div>
+        Dodaj
+      </button>
+    </form>
+  </ng-template>
+</app-modal>

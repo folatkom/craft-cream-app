@@ -3,17 +3,8 @@ mat-card {
   max-width: 200px;
   text-align: center;
   margin: 10px auto;
+  padding: 6vw;
 }
 mat-card-title {
   padding: 10px;
-}
-#modal-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  background-color: rgba(250, 250, 250, 0.411);
-}
-#modal {
-  margin: 10% auto;
 }

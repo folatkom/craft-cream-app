@@ -10,10 +10,6 @@ mat-card {
 mat-card-title {
   padding: 20px;
 }
-input {
-  display: block;
-  margin: auto;
-}
 .errorMessage {
   height: 20px;
   color: red;
