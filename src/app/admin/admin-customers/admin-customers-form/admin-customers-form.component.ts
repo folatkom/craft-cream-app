@@ -1,4 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -9,6 +14,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCustomersFormComponent implements OnInit {
+  @Input() customers: any;
   public registerForm!: FormGroup;
 
   constructor(
@@ -24,7 +30,11 @@ export class AdminCustomersFormComponent implements OnInit {
   }
 
   addCustomer(value: any) {
-    this.authService.addCustomer(value);
-    this.registerForm.reset();
+    if (!this.customers.some((item: any) => item.email === value.email)) {
+      this.authService.addCustomer(value);
+      this.registerForm.reset();
+    } else {
+      alert('Podany email jest już w bazie klientów');
+    }
   }
 }

@@ -101,12 +101,21 @@ export class AdminOfferComponent implements OnInit, OnDestroy {
   }
 
   submitForm(value: listItem) {
-    if (this.whichForm === 'addFlavour') {
+    value.name = value.name.replace(/\s*$/, '');
+    if (
+      this.whichForm === 'addFlavour' &&
+      !this.flavours.some((item: listItem) => item.name === value.name)
+    ) {
       this.addItem(value, 'flavours');
       this.getFlavours();
-    } else {
+    } else if (
+      this.whichForm === 'addContainer' &&
+      !this.containers.some((item: listItem) => item.name === value.name)
+    ) {
       this.addItem(value, 'containers');
       this.getContainers();
+    } else {
+      alert('Podana nazwa już istnieje');
     }
   }
 

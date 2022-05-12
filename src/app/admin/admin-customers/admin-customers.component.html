@@ -19,7 +19,9 @@
       ></app-admin-customers-list>
     </div>
     <ng-template #form>
-      <app-admin-customers-form></app-admin-customers-form>
+      <app-admin-customers-form
+        [customers]="customers"
+      ></app-admin-customers-form>
     </ng-template>
   </mat-card>
 </div>
